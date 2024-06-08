@@ -13,7 +13,7 @@ export const MENU = [
   },
   {
     title: 'Project',
-    link: '/proejct',
+    link: '/project',
   },
   {
     title: 'Blog',

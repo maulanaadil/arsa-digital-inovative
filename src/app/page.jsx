@@ -15,6 +15,15 @@ import MailIcon from '@/assets/icons/MailIcon';
 import Testimonials from '@/sections/testimonial';
 import CTAContent from '@/sections/cta';
 
+const activeSosmed = [
+  'linkedin',
+  'behance',
+  'dribble',
+  'medium',
+  'github',
+  'instagram',
+];
+
 export default function Home() {
   return (
     <>
@@ -36,14 +45,6 @@ export default function Home() {
 }
 
 function Hero() {
-  const activeSosmed = [
-    'linkedin',
-    'behance',
-    'dribble',
-    'medium',
-    'github',
-    'instagram',
-  ];
   return (
     <div className='container max-auto py-[2.5rem]'>
       <div className='relative min-h-[43rem]'>
@@ -219,7 +220,7 @@ function CTA() {
 
 function Blogs() {
   return (
-    <div className='container py-[10rem] flex flex-col justify-end items-center'>
+    <div className='container pt-[10rem] pb-[4rem] flex flex-col justify-end items-center'>
       <div className='flex flex-col gap-6 justify-center items-center'>
         <p className='text-primary-orange font-bold uppercase'>Our blogs</p>
         <p className='text-center font-bold text-[3.25rem] leading-[3.875rem] text-black'>
