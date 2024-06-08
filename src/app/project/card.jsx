@@ -31,7 +31,12 @@ function ProjectCardHorizontal({
     >
       <div className='flex flex-col items-center gap-6'>
         <div className='w-full h-[20rem]'>
-          <img src={image} className='h-full w-full object-cover' alt={title} />
+          <img
+            loading='lazy'
+            src={image}
+            className='h-full w-full object-cover'
+            alt={title}
+          />
         </div>
         <div className='h-full flex flex-col justify-between gap-4'>
           <div className='flex flex-col gap-3'>
@@ -68,7 +73,12 @@ function ProjectCardVertical({
           <Button className='w-full' text='See Detail' onClick={onClick} />
         </div>
         <div className='w-[38.5rem] h-[27rem]'>
-          <img src={image} className='h-full w-full object-cover' alt={title} />
+          <img
+            loading='lazy'
+            src={image}
+            className='h-full w-full object-cover'
+            alt={title}
+          />
         </div>
       </div>
     </div>

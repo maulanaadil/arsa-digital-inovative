@@ -1,15 +1,19 @@
 'use client';
 
-import Button from '@/components/button';
-import { SERVICES } from '@/constants/services';
-import IntroCta from '@/sections/intro-cta';
-import React from 'react';
-import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/service-cta.svg';
+import Button from '@/components/button';
+import CTAContent from '@/sections/cta';
+import IntroCta from '@/sections/intro-cta';
 
+import { QUERY_SERVICEPAGE } from '@/graphql/queries';
+import { useSuspenseQuery } from '@apollo/client';
+import { useRouter } from 'next/navigation';
 import { twMerge as cx } from 'tailwind-merge';
 
-export default function Service() {
+export default function ServicePage() {
+  const router = useRouter();
+  const { data, isLoading } = useSuspenseQuery(QUERY_SERVICEPAGE);
+
   return (
     <>
       <IntroCta
@@ -24,52 +28,51 @@ export default function Service() {
           </span>
         }
       />
-      <Services />
-      <Works />
+      <Services services={data?.services} />
+      <Works works={data?.projects} />
       <CTAContent
         ilustraion={CTAContentIlustration}
         cta='Custom Software Solutions From Concept To Deployment, Tailored For Your Unique Business Needs.'
-        onClick={() => alert('get started now')}
+        onClick={() => router.push('/contact')}
       />
     </>
   );
 }
 
-function Services() {
+function Services({ services }) {
+  const router = useRouter();
   return (
     <div className='container pb-[10rem] grid grid-cols-3 justify-self-center gap-6'>
-      {SERVICES.map((service) => (
+      {services?.map((service) => (
         <div
-          key={service.title}
+          key={service.id}
           className={cx(
             'w-full h-[30rem] relative',
-            service.title === 'UI/UX Design' &&
+            service.name === 'UI/UX Design' &&
               'col-span-3 w-[24rem] justify-self-center'
           )}
         >
           <div className='absolute bg-black/60 inset-0 z-20'></div>
           <img
-            src='https://images.unsplash.com/photo-1717661622547-c5da556b161d?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            className='w-full h-full object-cover absolute inset-0 z-10'
-            alt=''
+            src={service.image.url}
+            className='w-full h-full object-cover absolute bg-[#F1E9DE] inset-0 z-10'
+            alt={service.id}
+            loading='lazy'
           />
           <div className='h-full absolute flex flex-col z-30 justify-between p-9'>
             <div className='inset-0 flex flex-col gap-1'>
               <p className='font-bold text-white text-[1.75rem] text-center'>
-                {service.title}
+                {service.name}
               </p>
               <p className='text-white text-center leading-5'>
-                We create responsive, user-friendly websites that not only look
-                great but also provide a seamless user experience. Our web
-                development services ensure your online presence is robust and
-                effective.
+                {service.description}
               </p>
             </div>
             <Button
               text='Read More'
               size='medium'
               className='w-[12rem] py-5 px-0 mx-auto'
-              onClick={() => alert('read more')}
+              onClick={() => router.push('/project')}
             />
           </div>
         </div>
@@ -78,7 +81,17 @@ function Services() {
   );
 }
 
-function Works() {
+function Works({ works }) {
+  const router = useRouter();
+
+  const getMappedClassName = (index) => {
+    const classCycle = ['col-span-3', 'col-span-2', 'col-span-2', 'col-span-3'];
+
+    const baseClasses = 'relative h-[31.25rem] p-6 col';
+    const dynamicClass = classCycle[index % classCycle.length];
+    return `${baseClasses} ${dynamicClass}`;
+  };
+
   return (
     <div className='container pb-[10rem] flex flex-col gap-6'>
       <p className='font-bold text-primary-orange uppercase text-center'>
@@ -90,86 +103,51 @@ function Works() {
         </p>
       </div>
       <div className='mt-[4rem] grid grid-cols-5 gap-6'>
-        <div className='relative h-[31.25rem] col-span-3 p-6'>
-          <img
-            src='https://images.unsplash.com/photo-1717661622547-c5da556b161d?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            alt='bg-work'
-            className='h-full w-full absolute inset-0 z-10'
-          />
-          <div className='inset-x-6 absolute z-20 bottom-6 p-4 flex gap-6 grow items-end bg-white'>
-            <div className='flex-1 flex flex-col gap-3'>
-              <p className='text-black font-bold text-[1.75rem]'>ROB AI</p>
-              <p className='text-darkGrey'>
-                AI apps automate tasks, enhance decisions, personalize
-                experiences, and improve efficiency across industries.
-              </p>
-            </div>
-            <div className='px-3.5 py-[21px] bg-primary-orange text-black'>
-              <svg
-                width='22'
-                height='8'
-                viewBox='0 0 22 8'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
+        {works?.map((work, idx) => (
+          <div key={work.id} className={getMappedClassName(idx)}>
+            <img
+              src={work.image.url}
+              alt={work.id}
+              className='h-full w-full absolute inset-0 z-10 object-cover'
+              loading='lazy'
+            />
+            <div className='inset-x-6 absolute z-20 bottom-6 p-4 flex gap-6 grow items-end bg-white'>
+              <div className='flex-1 flex flex-col gap-3'>
+                <p className='text-black font-bold text-[1.75rem]'>
+                  {work.title}
+                </p>
+                <p className='text-darkGrey'>{work.overview}</p>
+              </div>
+              <div
+                className='px-3.5 py-[21px] bg-primary-orange text-black'
+                onClick={() => router.push('/project')}
               >
-                <path
-                  d='M3 6C1.89543 6 1 5.1046 1 4C1 2.8954 1.89543 2 3 2C4.10457 2 5 2.8954 5 4C5 5.1046 4.10457 6 3 6Z'
-                  stroke='#1E1E1E'
-                  stroke-width='1.5'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                />
-                <path
-                  d='M8 4H21M21 4L18 1M21 4L18 7'
-                  stroke='#1E1E1E'
-                  stroke-width='1.5'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                />
-              </svg>
+                <svg
+                  width='22'
+                  height='8'
+                  viewBox='0 0 22 8'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M3 6C1.89543 6 1 5.1046 1 4C1 2.8954 1.89543 2 3 2C4.10457 2 5 2.8954 5 4C5 5.1046 4.10457 6 3 6Z'
+                    stroke='#1E1E1E'
+                    stroke-width='1.5'
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                  />
+                  <path
+                    d='M8 4H21M21 4L18 1M21 4L18 7'
+                    stroke='#1E1E1E'
+                    stroke-width='1.5'
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                  />
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-        <div className='relative h-[31.25rem] col-span-2 p-6'>
-          <img
-            src='https://images.unsplash.com/photo-1717661622547-c5da556b161d?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            alt='bg-work'
-            className='h-full w-full absolute inset-0 z-10'
-          />
-          <div className='inset-x-6 absolute z-20 bottom-6 p-4 flex gap-6 grow items-end bg-white'>
-            <div className='flex-1 flex flex-col gap-3'>
-              <p className='text-black font-bold text-[1.75rem]'>ROB AI</p>
-              <p className='text-darkGrey'>
-                AI apps automate tasks, enhance decisions, personalize
-                experiences, and improve efficiency across industries.
-              </p>
-            </div>
-            <div className='px-3.5 py-[21px] bg-primary-orange text-black'>
-              <svg
-                width='22'
-                height='8'
-                viewBox='0 0 22 8'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M3 6C1.89543 6 1 5.1046 1 4C1 2.8954 1.89543 2 3 2C4.10457 2 5 2.8954 5 4C5 5.1046 4.10457 6 3 6Z'
-                  stroke='#1E1E1E'
-                  stroke-width='1.5'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                />
-                <path
-                  d='M8 4H21M21 4L18 1M21 4L18 7'
-                  stroke='#1E1E1E'
-                  stroke-width='1.5'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

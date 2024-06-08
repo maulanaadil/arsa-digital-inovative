@@ -1,14 +1,19 @@
 'use client';
 
-import { CULTURES } from '@/constants/cultures';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { twMerge as cx } from 'tailwind-merge';
 import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/about-cta.svg';
 import IntroCta from '@/sections/intro-cta';
+import { useSuspenseQuery } from '@apollo/client';
+import { QUERY_ABOUTPAGE } from '@/graphql/queries';
+import { useRouter } from 'next/navigation';
+import { RichText } from '@graphcms/rich-text-react-renderer';
 
-export default function about() {
+export default function Aboutpage() {
+  const router = useRouter();
+  const { data, isLoading } = useSuspenseQuery(QUERY_ABOUTPAGE);
   return (
     <>
       <IntroCta
@@ -35,41 +40,43 @@ export default function about() {
         sizes='100vw'
         style={{ width: '100%', height: 'auto' }}
       />
-      <About />
-      <Teams />
-      <Cultures />
+      <Abouts />
+      <Teams teams={data?.teams} />
+      <Cultures cultures={data?.cultures} />
       <CTAContent
         ilustraion={CTAContentIlustration}
         cta='Innovative, Trustworthy, Customer-Focused. Collaborative, Excellent, Sustainable, Creative.'
-        onClick={() => alert('get started now')}
+        onClick={() => router.push('/contact')}
       />
     </>
   );
 }
 
-function About() {
+function Abouts({ histories }) {
   return (
     <div className='container py-[10rem] flex flex-col gap-14'>
-      <div className='flex gap-6'>
-        <p className='w-[18.75rem] font-bold text-[1.75rem] text-black'>
-          Our History
-        </p>
-        <div className='flex-1 flex flex-col gap-4'>
-          <p className='text-black text-[1.75rem] leading-10 font-bold'>
-            Founded in 2024, our agency began with a vision to bridge the gap
-            between engineering excellence and innovative technology.
+      {histories?.map((history) => (
+        <div key={history.id} className='flex gap-6'>
+          <p className='w-[18.75rem] font-bold text-[1.75rem] text-black'>
+            {history.name}
           </p>
-          <p className='text-black text-xl leading-6'>
-            Our journey started with a small team of passionate engineers and
-            developers committed to delivering top-notch solutions. Over the
-            years, we have grown into a leading agency known for our expertise,
-            dedication, and cutting-edge projects. From humble beginnings, we
-            have expanded our portfolio to include a diverse range of
-            engineering applications, consistently pushing the boundaries of
-            what is possible.
-          </p>
+          <div className='flex-1 flex flex-col gap-4'>
+            <RichText
+              content={history.description.raw}
+              renderers={{
+                h5: ({ children }) => (
+                  <p className='text-black text-[1.75rem] leading-10 font-bold'>
+                    {children}
+                  </p>
+                ),
+                p: ({ children }) => (
+                  <p className='text-black text-xl leading-6'>{children}</p>
+                ),
+              }}
+            />
+          </div>
         </div>
-      </div>
+      ))}
       <div className='w-full h-[1px] bg-lightGrey' />
       <div className='flex gap-6'>
         <p className='w-[18.75rem] font-bold text-[1.75rem] text-black'>
@@ -124,7 +131,7 @@ function About() {
   );
 }
 
-function Teams() {
+function Teams({ teams }) {
   return (
     <div className='container pb-[10rem] flex flex-col gap-6'>
       <p className='font-bold text-primary-orange uppercase text-center'>
@@ -134,30 +141,25 @@ function Teams() {
         Here&apos;s The Man Who Leading Behind
       </p>
       <div className='grid grid-cols-6 mt-10 gap-x-6 gap-y-10'>
-        {Array.from({ length: 6 }).map((_, idx) => (
+        {teams?.map((team) => (
           <div
-            key={idx}
+            key={team.id}
             className='flex flex-col gap-8 items-center justify-center col-span-2'
           >
             <div className='oveflow-clip w-[12rem] h-[12rem] rounded-full'>
               <img
-                src='https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                src={team.avatar.url}
                 className='w-full h-full object-cover rounded-full'
                 alt='team1'
               />
             </div>
             <div className='flex flex-col items-center justify-center gap-6'>
-              <p className='text-primary-blue text-center'>
-                Director of Operations
-              </p>
+              <p className='text-primary-blue text-center'>{team.jobTitle}</p>
               <div className='flex flex-col items-center justify-center gap-2'>
                 <p className='text-black font-bold text-[1.75rem] text-center'>
-                  Anthony Cholbee
+                  {team.name}
                 </p>
-                <p className='text-darkGrey text-center'>
-                  Oversees the day-to-day activities of the company, ensuring
-                  that the business runs smoothly and efficiently
-                </p>
+                <p className='text-darkGrey text-center'>{team.description}</p>
               </div>
             </div>
           </div>
@@ -167,7 +169,7 @@ function Teams() {
   );
 }
 
-function Cultures() {
+function Cultures({ cultures }) {
   const [active, setActive] = useState('Integrity');
   return (
     <div className='container pb-[2rem] flex flex-col gap-6 items-center justify-center'>
@@ -180,9 +182,9 @@ function Cultures() {
         </p>
       </div>
       <div className='flex grow items-center gap-6'>
-        {CULTURES.map((culture) => (
+        {cultures?.map((culture) => (
           <div
-            key={culture.title}
+            key={culture.id}
             className={cx(
               'relative h-[45rem] transition-all duration-300 ease-in-out cursor-pointer',
               active === culture.title ? 'w-[39rem]' : 'w-[12rem]'
@@ -192,15 +194,16 @@ function Cultures() {
             <div className='absolute inset-0 bg-black/70 z-20'></div>
             <img
               className='absolute h-full w-full inset-0 z-10 object-cover'
-              src={culture.image}
-              alt='bg-laptop'
+              src={culture.image.url}
+              alt={culture.title}
+              loading='lazy'
             />
             {active === culture.title ? (
               <div className='absolute bottom-10 left-10 z-30 flex flex-col gap-4'>
                 <p className='text-white text-[3.25rem] font-bold'>
                   {culture.title}
                 </p>
-                <p className='text-white leading-5'>{culture.subtitle}</p>
+                <p className='text-white leading-5'>{culture.description}</p>
               </div>
             ) : (
               <p className='text-white font-bold text-[3.25rem] whitespace-nowrap [writing-mode:vertical-lr] z-30 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>

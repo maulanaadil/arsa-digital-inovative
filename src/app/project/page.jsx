@@ -6,8 +6,15 @@ import React from 'react';
 import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/project-cta.svg';
 import ProjectCard from './card';
+import { useSuspenseQuery } from '@apollo/client';
+import { useRouter } from 'next/navigation';
+import { QUERY_PROEJCTPAGE } from '@/graphql/queries';
+import { twMerge as cx } from 'tailwind-merge';
 
-export default function Project() {
+export default function Projectpage() {
+  const router = useRouter();
+  const { data, isLoading } = useSuspenseQuery(QUERY_PROEJCTPAGE);
+
   return (
     <>
       <IntroCta
@@ -22,49 +29,36 @@ export default function Project() {
           </span>
         }
         hasButton
-        onClick={() => alert('get started now')}
+        onClick={() => router.push('/contact')}
       />
-      <Projects />
+      <Projects projects={data?.projects} />
       <Testimonial />
       <CTAContent
         ilustraion={CTAContentIlustration}
         cta='Designed a Cutting-Edge UI That Enhanced User Experience And Increased Customer Engagement By 30%'
-        onClick={() => alert('get started now')}
+        onClick={() => router.push('/contact')}
         className='pt-5'
       />
     </>
   );
 }
 
-function Projects() {
+function Projects({ projects }) {
+  const router = useRouter();
   return (
     <div className='container grid grid-cols-4 gap-6'>
-      <ProjectCard
-        image='https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        title='This is Us'
-        className='col-span-4'
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in convallis mauris. Aenean a faucibus nunc, sed facilisis
-neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas quis est elementum, dictum nunc accumsan, condimentum sem. Nulla metus orci, elementum in odio ut, dignissim rutrum ipsum.'
-        onClick={() => alert('see detail')}
-      />
-      <ProjectCard
-        image='https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        title='This is Us'
-        layout='horizontal'
-        className='col-span-2'
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in convallis mauris. Aenean a faucibus nunc, sed facilisis
-neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas quis est elementum, dictum nunc accumsan, condimentum sem. Nulla metus orci, elementum in odio ut, dignissim rutrum ipsum.'
-        onClick={() => alert('see detail')}
-      />
-      <ProjectCard
-        image='https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=2847&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        title='This is Us'
-        layout='horizontal'
-        className='col-span-2'
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in convallis mauris. Aenean a faucibus nunc, sed facilisis
-neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas quis est elementum, dictum nunc accumsan, condimentum sem. Nulla metus orci, elementum in odio ut, dignissim rutrum ipsum.'
-        onClick={() => alert('see detail')}
-      />
+      {projects?.map((project, idx) => (
+        <ProjectCard
+          key={project.id}
+          image={project.image.url}
+          title={project.title}
+          layout={idx % 3 === 0 ? 'vertical' : 'horizontal'}
+          className={cx(idx % 3 === 0 ? 'col-span-4' : 'col-span-2')}
+          description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in convallis mauris. Aenean a faucibus nunc, sed facilisis
+  neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas quis est elementum, dictum nunc accumsan, condimentum sem. Nulla metus orci, elementum in odio ut, dignissim rutrum ipsum.'
+          onClick={() => router.push('/project')}
+        />
+      ))}
     </div>
   );
 }

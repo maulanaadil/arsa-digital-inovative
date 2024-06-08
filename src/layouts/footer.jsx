@@ -1,14 +1,17 @@
 'use client';
 
 import { MENU } from '@/constants/header';
-import { SERVICES } from '@/constants/services';
-import { SOCIAL_MEDIA } from '@/constants/sosmed';
+import { QUERY_FOOTER } from '@/graphql/queries';
+import { useSuspenseQuery } from '@apollo/client';
 import Link from 'next/link';
-import React from 'react';
-
-const footerSosmed = ['facebook', 'dribble2', 'twitter', 'email'];
 
 export default function Footer() {
+  const { data } = useSuspenseQuery(QUERY_FOOTER);
+
+  const footerSosmed = data?.socialMedias.filter((item) =>
+    item.platform.includes('footer')
+  );
+
   return (
     <div className='w-full min-h-[30rem] bg-darkGrey'>
       <div className='container pt-20 pb-[3.125rem]'>
@@ -24,9 +27,9 @@ export default function Footer() {
           <div className='col-span-3  flex flex-col gap-6'>
             <p className='text-white font-bold text-xl'>Our Service</p>
             <div className='flex flex-col gap-3'>
-              {SERVICES.map((service) => (
-                <p key={service.title} className='text-white font-medium'>
-                  {service.title}
+              {data?.services.map((service) => (
+                <p key={service.id} className='text-white font-medium'>
+                  {service.name}
                 </p>
               ))}
             </div>
@@ -49,24 +52,24 @@ export default function Footer() {
             <div className='flex flex-col gap-6'>
               <p className='text-white font-bold text-xl'>Social Media</p>
               <div className='flex items-center gap-5'>
-                {SOCIAL_MEDIA.filter((sosmed) =>
-                  footerSosmed.includes(sosmed.id)
-                ).map((sosmed) => (
+                {footerSosmed.map((sosmed) => (
                   <div
                     key={sosmed}
-                    className='text-white rounded-full'
-                    onClick={() => window.open(item.link)}
+                    className='text-white rounded-full cursor-pointer'
+                    onClick={() => window.open(sosmed.url)}
                   >
-                    {sosmed.icon}
+                    <img
+                      src={sosmed.icon.url}
+                      alt={sosmed.platform}
+                      className='w-6 h-6 object-cover'
+                    />
                   </div>
                 ))}
               </div>
             </div>
             <div className='flex flex-col gap-6'>
               <p className='text-white font-bold text-xl'>Office</p>
-              <p className='text-white leading-5'>
-                16192 Coastal Highway, Lewes, Delaware 19958 USA
-              </p>
+              <p className='text-white leading-5'>{data?.office.address}</p>
             </div>
           </div>
         </div>

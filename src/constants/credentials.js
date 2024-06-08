@@ -1,0 +1,2 @@
+export const HYGRAPH_TOKEN = process.env.NEXT_PUBLIC_HYGRAPH_TOKEN;
+export const URL_SERVER_HYGRAPH = process.env.NEXT_PUBLIC_URL_SERVER_HYGRAPH;

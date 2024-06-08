@@ -1,30 +1,32 @@
 'use client';
 
 import Button from '@/components/button';
-import { SOCIAL_MEDIA } from '@/constants/sosmed';
-import React, { useState } from 'react';
+import { QUERY_CONTACTPAGE } from '@/graphql/queries';
+import { useSuspenseQuery } from '@apollo/client';
+import { useState } from 'react';
 
 const activeSosmed = [
-  'dribble',
-  'behance',
-  'facebook',
-  'instagram',
-  'linkedin',
+  'Dribble',
+  'Behance',
+  'Facebook',
+  'Instagram',
+  'Linkedin',
 ];
 
-export default function Contact() {
+export default function Contactpage() {
+  const { data, isLoading } = useSuspenseQuery(QUERY_CONTACTPAGE);
   return (
     <div className='container pb-[10rem] pt-[4rem]'>
       <div className='flex grow items-center gap-[8.25rem] justify-center'>
-        <ContactDetail />
-        <Form />
+        <ContactDetail contact={data?.contact} />
+        <Form contact={data?.contact} />
       </div>
-      <FindUs />
+      <FindUs offices={data?.offices} socialMedias={data?.socialMedias} />
     </div>
   );
 }
 
-function ContactDetail() {
+function ContactDetail({ contact }) {
   return (
     <div className='h-full w-full flex flex-col gap-6'>
       <p className='text-xl uppercase font-bold text-primary-orange '>
@@ -59,7 +61,7 @@ function ContactDetail() {
               </clipPath>
             </defs>
           </svg>
-          <p className='text-xl text-black'>+(62)856 2496 4708</p>
+          <p className='text-xl text-black'>{contact?.phone}</p>
         </div>
         <div className='flex items-center gap-4'>
           <svg
@@ -77,17 +79,23 @@ function ContactDetail() {
             />
           </svg>
 
-          <p className='text-xl text-black'>Contactperson@gmail.com</p>
+          <p className='text-xl text-black'>{contact?.email}</p>
         </div>
       </div>
     </div>
   );
 }
 
-function Form() {
+function Form({ contact }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+
+  const handleSendMessage = () => {
+    const mailto = `mailto:${contact?.email}?subject=Message from ${name}&body=${message}`;
+
+    return window.open(mailto);
+  };
 
   return (
     <div className='w-full h-full bg-pureWhite border border-lightGrey p-8 flex flex-col gap-12'>
@@ -111,14 +119,18 @@ function Form() {
       />
       <Button
         text='Send Message'
-        onClick={() => alert('Send Message')}
+        onClick={() => handleSendMessage()}
         className='w-full'
       />
     </div>
   );
 }
 
-function FindUs() {
+function FindUs({ offices, socialMedias }) {
+  const contactSosmed = socialMedias?.filter((sosmed) =>
+    activeSosmed?.includes(sosmed.platform)
+  );
+
   return (
     <div className='flex flex-col justify-center items-center gap-6 pt-[10rem]'>
       <p className='text-xl uppercase font-bold text-primary-orange'>
@@ -128,43 +140,34 @@ function FindUs() {
         you Can Find Us Here
       </p>
       <div className='flex items-center grow gap-6 mt-4'>
-        <div className='w-full h-[18rem] px-8 py-6 bg-pureWhite border border-lightGrey flex flex-col justify-between text-center'>
-          <p className='text-[1.75rem] text-black font-bold leading-[2.1rem]'>
-            Head Office
-          </p>
-          <p className='text-xl text-black'>
-            16192 Coastal Highway, Lewes, Delaware 19958 USA
-          </p>
-          <p className='text-xl text-black font-bold'>
-            Phone: +1 (302) 5202395
-          </p>
-        </div>
-        <div className='w-full h-[18rem] px-8 py-6 bg-pureWhite border border-lightGrey flex flex-col justify-between text-center'>
-          <p className='text-[1.75rem] text-black font-bold leading-[2.1rem]'>
-            Office
-          </p>
-          <p className='text-xl text-black'>
-            29V, Yaroslaviv Val Street, Kyiv, 02000 Ukraine
-          </p>
-          <p className='text-xl text-black font-bold'>
-            Phone: +1 (302) 5202395
-          </p>
-        </div>
+        {offices?.slice(0, 2)?.map((office) => (
+          <div
+            key={office.id}
+            className='w-full h-[18rem] px-8 py-6 bg-pureWhite border border-lightGrey flex flex-col justify-between text-center'
+          >
+            <p className='text-[1.75rem] text-black font-bold leading-[2.1rem]'>
+              {office.type}
+            </p>
+            <p className='text-xl text-black'>{office.address}</p>
+            <p className='text-xl text-black font-bold'>
+              Phone: {office.phone}
+            </p>
+          </div>
+        ))}
         <div className='w-full h-[18rem] px-8 py-6 bg-pureWhite border border-lightGrey flex flex-col gap-8 text-center'>
           <p className='text-[1.75rem] text-black font-bold leading-[2.1rem]'>
             Our Social Media
           </p>
           <div className='flex flex-col items-center justify-center gap-1'>
-            {SOCIAL_MEDIA.filter((social) =>
-              activeSosmed.includes(social.id)
-            ).map((social) => (
+            {contactSosmed?.map((social) => (
               <a
                 key={social.id}
                 className='font-bold text-xl text-[#205BE6] underline'
-                href={social.link}
+                href={social.url}
                 target='_blank'
               >
-                {social.id.charAt(0).toUpperCase() + social.id.slice(1)}
+                {social.platform.charAt(0).toUpperCase() +
+                  social.platform.slice(1)}
               </a>
             ))}
           </div>
