@@ -192,7 +192,7 @@ function FindUs({ offices, socialMedias }) {
       <div className='mt-4'>
         <iframe
           src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.31293055433!2d107.52233774695712!3d-6.904379724587457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7450b06a659%3A0xa2c968a02c45b69d!2sPT%20Astrajingga%20Inovasi%20Digital!5e0!3m2!1sid!2sid!4v1717846596851!5m2!1sid!2sid'
-          width={isMobile ? '450' : '1272'}
+          width={isMobile ? '400' : '1272'}
           height={isMobile ? '426' : '700'}
           allowfullscreen=''
           loading='lazy'
