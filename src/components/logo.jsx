@@ -1,6 +1,9 @@
+import useResponsive from '@/hooks/useResponse';
 import React from 'react';
 
 export default function Logo({ size = 'medium', ...props }) {
+  const isMobile = useResponsive('sm');
+
   if (size === 'large') {
     return (
       <svg
@@ -9,6 +12,7 @@ export default function Logo({ size = 'medium', ...props }) {
         viewBox='0 0 311 80'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
+        {...props}
       >
         <path
           d='M23.1071 15.5161H54.2919L38.7759 0L23.1071 15.5161Z'
@@ -139,8 +143,8 @@ export default function Logo({ size = 'medium', ...props }) {
             y2='16.5719'
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='#FFD200' />
-            <stop offset='1' stop-color='#F7971E' />
+            <stop stopColor='#FFD200' />
+            <stop offset='1' stopColor='#F7971E' />
           </linearGradient>
           <linearGradient
             id='paint1_linear_39_34826'
@@ -150,8 +154,8 @@ export default function Logo({ size = 'medium', ...props }) {
             y2='24.4688'
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='white' stop-opacity='0.5' />
-            <stop offset='1' stop-color='white' stop-opacity='0' />
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
           </linearGradient>
           <radialGradient
             id='paint2_radial_39_34826'
@@ -161,8 +165,8 @@ export default function Logo({ size = 'medium', ...props }) {
             gradientUnits='userSpaceOnUse'
             gradientTransform='translate(58.1321 48.2859) scale(19.1817 19.1817)'
           >
-            <stop stop-color='white' stop-opacity='0.5' />
-            <stop offset='1' stop-color='white' stop-opacity='0' />
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
           </radialGradient>
           <linearGradient
             id='paint3_linear_39_34826'
@@ -172,8 +176,8 @@ export default function Logo({ size = 'medium', ...props }) {
             y2='78.9425'
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='#FFD200' />
-            <stop offset='1' stop-color='#F7971E' />
+            <stop stopColor='#FFD200' />
+            <stop offset='1' stopColor='#F7971E' />
           </linearGradient>
           <linearGradient
             id='paint4_linear_39_34826'
@@ -183,8 +187,8 @@ export default function Logo({ size = 'medium', ...props }) {
             y2='71.0455'
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='white' stop-opacity='0.5' />
-            <stop offset='1' stop-color='white' stop-opacity='0' />
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
           </linearGradient>
           <radialGradient
             id='paint5_radial_39_34826'
@@ -194,8 +198,126 @@ export default function Logo({ size = 'medium', ...props }) {
             gradientUnits='userSpaceOnUse'
             gradientTransform='translate(19.2705 47.2284) rotate(180) scale(19.1817 19.1817)'
           >
-            <stop stop-color='white' stop-opacity='0.5' />
-            <stop offset='1' stop-color='white' stop-opacity='0' />
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
+          </radialGradient>
+        </defs>
+      </svg>
+    );
+  }
+
+  if (size === 'medium' && isMobile) {
+    return (
+      <svg
+        width='39'
+        height='40'
+        viewBox='0 0 39 40'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+        {...props}
+      >
+        <path
+          d='M11.5535 7.75754H27.1453L19.3877 0L11.5535 7.75754Z'
+          fill='#F7971E'
+        />
+        <path
+          d='M35.4712 31.6742L27.1453 40.0001L19.3494 32.2042L27.6753 23.8783C29.8268 21.7267 30.9028 18.9047 30.9039 16.0839C30.9039 13.2615 29.828 10.4396 27.6753 8.28687L35.4712 16.0828C37.6242 18.2358 38.6998 21.0578 38.6998 23.8798C38.6987 26.7003 37.6227 29.5226 35.4712 31.6742Z'
+          fill='url(#paint0_linear_77_12)'
+        />
+        <path
+          d='M27.1465 7.75757L19.3506 15.5535L27.6754 23.8782C29.8269 21.7267 30.9029 18.9043 30.904 16.0838C30.904 13.2619 29.8281 10.4395 27.6754 8.28681L27.1465 7.75757Z'
+          fill='#F7971E'
+        />
+        <path
+          d='M38.7012 23.8812C38.7012 21.0577 37.6252 18.2357 35.4718 16.0823L31.6226 12.235C35.8796 16.5437 35.8628 23.4886 31.5742 27.7769L23.2468 36.1024L27.1463 40L35.4718 31.6745C37.6234 29.5229 38.6993 26.7009 38.7012 23.8812Z'
+          fill='url(#paint1_linear_77_12)'
+        />
+        <path
+          d='M23.4448 36.2994L28.5387 31.1069L31.0854 28.5106L31.7219 27.8603L32.0366 27.5229C32.1409 27.41 32.2363 27.289 32.3365 27.1724C32.7268 26.6976 33.081 26.1936 33.3905 25.6633C34.6221 23.537 35.1193 21.007 34.783 18.5888C34.4687 16.1661 33.3055 13.8804 31.5741 12.184C33.2731 13.9143 34.3804 16.2089 34.6445 18.6063C34.9309 21.0007 34.3905 23.4726 33.1502 25.521C32.8385 26.032 32.4847 26.5162 32.0962 26.9702C31.7134 27.4264 31.2713 27.835 30.8389 28.2637L28.2426 30.8104L23.05 35.9043L23.4448 36.2994Z'
+          fill='url(#paint2_radial_77_12)'
+        />
+        <path
+          d='M11.0247 39.4712C8.87162 37.3181 7.79602 34.4961 7.79602 31.6741C7.79714 28.8533 8.87311 26.0313 11.0247 23.8797L19.3506 15.5538L11.555 7.75757L3.22917 16.0838C1.07758 18.2354 0.0016056 21.0578 0.000488281 23.8782C0.000488281 26.7002 1.07647 29.5226 3.22917 31.6753L11.0247 39.4712Z'
+          fill='url(#paint3_linear_77_12)'
+        />
+        <path
+          d='M11.5534 40.0001L19.3493 32.2042L11.0246 23.8794C8.87299 26.031 7.79702 28.8533 7.7959 31.6738C7.7959 34.4958 8.87188 37.3181 11.0246 39.4708L11.5534 40.0001Z'
+          fill='#F7971E'
+        />
+        <path
+          d='M0 23.8767C0 26.7002 1.07598 29.5222 3.22942 31.6756L7.07858 35.5229C2.8216 31.2142 2.83836 24.2693 7.127 19.981L15.4544 11.6555L11.5549 7.75793L3.22942 16.0834C1.07784 18.235 0.0018622 21.0566 0 23.8767Z'
+          fill='url(#paint4_linear_77_12)'
+        />
+        <path
+          d='M15.2562 11.4581L10.1624 16.6507L7.61561 19.247L6.97911 19.8972L6.6644 20.2347C6.56012 20.3475 6.46477 20.4686 6.36459 20.5851C5.97427 21.06 5.62008 21.5639 5.31058 22.0943C4.07893 24.2205 3.58172 26.7505 3.91803 29.1687C4.23237 31.5915 5.3955 33.8771 7.12697 35.5736C5.4279 33.8432 4.32064 31.5486 4.05658 29.1512C3.77017 26.7568 4.31058 24.2849 5.5508 22.2365C5.86254 21.7255 6.21636 21.2414 6.60481 20.7874C6.98768 20.3311 7.42976 19.9226 7.86216 19.4939L10.4584 16.9471L15.651 11.8533L15.2562 11.4581Z'
+          fill='url(#paint5_radial_77_12)'
+        />
+        <defs>
+          <linearGradient
+            id='paint0_linear_77_12'
+            x1='29.0247'
+            y1='40.0001'
+            x2='29.0247'
+            y2='8.28657'
+            gradientUnits='userSpaceOnUse'
+          >
+            <stop stopColor='#FFD200' />
+            <stop offset='1' stopColor='#F7971E' />
+          </linearGradient>
+          <linearGradient
+            id='paint1_linear_77_12'
+            x1='30.9739'
+            y1='40'
+            x2='30.9739'
+            y2='12.2349'
+            gradientUnits='userSpaceOnUse'
+          >
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
+          </linearGradient>
+          <radialGradient
+            id='paint2_radial_77_12'
+            cx='0'
+            cy='0'
+            r='1'
+            gradientUnits='userSpaceOnUse'
+            gradientTransform='translate(29.0659 24.1432) scale(9.59075 9.59075)'
+          >
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
+          </radialGradient>
+          <linearGradient
+            id='paint3_linear_77_12'
+            x1='9.6755'
+            y1='7.75771'
+            x2='9.6755'
+            y2='39.4712'
+            gradientUnits='userSpaceOnUse'
+          >
+            <stop stopColor='#FFD200' />
+            <stop offset='1' stopColor='#F7971E' />
+          </linearGradient>
+          <linearGradient
+            id='paint4_linear_77_12'
+            x1='7.7273'
+            y1='7.75771'
+            x2='7.7273'
+            y2='35.5228'
+            gradientUnits='userSpaceOnUse'
+          >
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
+          </linearGradient>
+          <radialGradient
+            id='paint5_radial_77_12'
+            cx='0'
+            cy='0'
+            r='1'
+            gradientUnits='userSpaceOnUse'
+            gradientTransform='translate(9.63516 23.6145) rotate(180) scale(9.59075)'
+          >
+            <stop stopColor='white' stopOpacity='0.5' />
+            <stop offset='1' stopColor='white' stopOpacity='0' />
           </radialGradient>
         </defs>
       </svg>
@@ -340,8 +462,8 @@ export default function Logo({ size = 'medium', ...props }) {
           y2='8.28634'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFD200' />
-          <stop offset='1' stop-color='#F7971E' />
+          <stop stopColor='#FFD200' />
+          <stop offset='1' stopColor='#F7971E' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_17_6'
@@ -351,8 +473,8 @@ export default function Logo({ size = 'medium', ...props }) {
           y2='12.2349'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='white' stop-opacity='0.5' />
-          <stop offset='1' stop-color='white' stop-opacity='0' />
+          <stop stopColor='white' stopOpacity='0.5' />
+          <stop offset='1' stopColor='white' stopOpacity='0' />
         </linearGradient>
         <radialGradient
           id='paint2_radial_17_6'
@@ -362,8 +484,8 @@ export default function Logo({ size = 'medium', ...props }) {
           gradientUnits='userSpaceOnUse'
           gradientTransform='translate(29.066 24.1433) scale(9.59086 9.59087)'
         >
-          <stop stop-color='white' stop-opacity='0.5' />
-          <stop offset='1' stop-color='white' stop-opacity='0' />
+          <stop stopColor='white' stopOpacity='0.5' />
+          <stop offset='1' stopColor='white' stopOpacity='0' />
         </radialGradient>
         <linearGradient
           id='paint3_linear_17_6'
@@ -373,8 +495,8 @@ export default function Logo({ size = 'medium', ...props }) {
           y2='39.4715'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFD200' />
-          <stop offset='1' stop-color='#F7971E' />
+          <stop stopColor='#FFD200' />
+          <stop offset='1' stopColor='#F7971E' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_17_6'
@@ -384,8 +506,8 @@ export default function Logo({ size = 'medium', ...props }) {
           y2='35.523'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='white' stop-opacity='0.5' />
-          <stop offset='1' stop-color='white' stop-opacity='0' />
+          <stop stopColor='white' stopOpacity='0.5' />
+          <stop offset='1' stopColor='white' stopOpacity='0' />
         </linearGradient>
         <radialGradient
           id='paint5_radial_17_6'
@@ -395,8 +517,8 @@ export default function Logo({ size = 'medium', ...props }) {
           gradientUnits='userSpaceOnUse'
           gradientTransform='translate(9.63519 23.6146) rotate(180) scale(9.59086 9.59087)'
         >
-          <stop stop-color='white' stop-opacity='0.5' />
-          <stop offset='1' stop-color='white' stop-opacity='0' />
+          <stop stopColor='white' stopOpacity='0.5' />
+          <stop offset='1' stopColor='white' stopOpacity='0' />
         </radialGradient>
       </defs>
     </svg>

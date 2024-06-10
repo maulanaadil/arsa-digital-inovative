@@ -30,7 +30,7 @@ export default function Blogs() {
   });
 
   return (
-    <div className='container pb-[7.5rem] pt-[4rem]'>
+    <div className='container pb-10 sm:pb-[7.5rem] sm:px-0 px-6 pt-12 sm:pt-[4rem]'>
       <Header
         search={search}
         setSearch={(val) => {
@@ -41,7 +41,7 @@ export default function Blogs() {
           setOrderBy(val);
         }}
       />
-      <div className='grid grid-cols-3 gap-x-6 gap-y-10'>
+      <div className='grid grid-cols-3 gap-x-0 sm:gap-x-6 gap-y-8 sm:gap-y-10'>
         {data?.blogs?.map((blog, idx) => (
           <Card
             key={blog.id}
@@ -63,17 +63,17 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className='flex flex-col gap-6 mb-10'>
-      <p className='text-xl font-bold text-primary-orange uppercase'>
+    <div className='flex flex-col gap-3.5 sm:gap-6 mb-10'>
+      <p className='font-bold text-primary-orange text-xs sm:text-base uppercase'>
         Latest News
       </p>
-      <div className='flex justify-between'>
-        <p className='font-bold text-black text-[3.25rem]'>
+      <div className='flex sm:flex-row flex-col sm:justify-between justify-start gap-4 sm:gap-0'>
+        <p className='font-bold text-black text-2xl sm:text-[3.25rem]'>
           Up-to-the-Minute News
         </p>
         <div className='flex items-center gap-4'>
-          <div className='flex items-center gap-4'>
-            <div className='px-4 flex gap-4 items-center bg-pureWhite border border-lightGrey'>
+          <div className='sm:w-auto w-full flex items-center gap-4'>
+            <div className='sm:w-auto w-full px-4 flex gap-4 items-center bg-pureWhite border border-lightGrey'>
               <div>
                 <svg
                   width='24'
@@ -81,6 +81,7 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
                   viewBox='0 0 24 24'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
+                  className='sm:w-auto sm:h-auto w-4 h-4'
                 >
                   <path
                     d='M17.7393 17.7391L20.8697 20.8696'
@@ -101,7 +102,7 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
               <input
                 type='text'
                 placeholder='Search'
-                className='text-xl font-medium leading-6 placeholder:text-black text-black py-4 focus:outline-none'
+                className='text-xs sm:text-xl font-medium leading-6 placeholder:text-black text-black py-4 focus:outline-none'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -118,6 +119,7 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
                 viewBox='0 0 24 24'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
+                className='sm:w-auto sm:h-auto w-4 h-4'
               >
                 <path
                   fillRule='evenodd'
@@ -133,7 +135,7 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
                   <div
                     key={option.value}
                     className={cx(
-                      'py-4 px-8 cursor-pointer',
+                      'py-4 px-8 cursor-pointer sm:text-base text-xs',
                       option.value === orderBy && 'bg-primary-orange text-white'
                     )}
                     onClick={() => {
@@ -155,30 +157,30 @@ function Header({ search, setSearch, orderBy, setOrderBy }) {
 
 function Card({ image, author, createdAt, title, content, avatar, id }) {
   return (
-    <div className='flex flex-col gap-6'>
-      <div className='w-full h-[20rem]'>
+    <div className='flex flex-col gap-3 sm:gap-6 sm:col-span-1 col-span-3'>
+      <div className='w-full h-[12.8125rem] sm:h-[20rem]'>
         <img src={image} alt='blog' className='w-full h-full object-cover' />
       </div>
       <div className='flex grow gap-3 items-center'>
-        <div className='w-16 h-16 rounded-full overflow-clip'>
+        <div className='w-8 h-8 sm:w-16 sm:h-16 rounded-full overflow-clip'>
           <img
             src={avatar}
             alt='team1'
             className='w-full h-full object-cover'
           />
         </div>
-        <p className='text-xl text-black font-bold'>{author}</p>
-        <div className='w-0.5 h-5 bg-gray-400'></div>
-        <p className='whitespace-nowrap text-xl text-gray-400 font-bold'>
+        <p className='text-xs sm:text-xl text-black font-bold'>{author}</p>
+        <div className='w-0.5 h-3.5 sm:h-5 bg-gray-400'></div>
+        <p className='whitespace-nowrap text-xs sm:text-xl text-gray-400 font-bold'>
           {dayjs(createdAt).format('DD MMM YYYY')}
         </p>
       </div>
-      <div className='flex flex-col gap-3'>
-        <p className='text-black font-bold line-clamp-2 text-[1.75rem] leading-8'>
+      <div className='flex flex-col sm:gap-3 gap-2'>
+        <p className='text-black font-bold line-clamp-2 text-base leading-normal sm:text-[1.75rem] sm:leading-8'>
           {title}
         </p>
 
-        <p className='text-black line-clamp-3'>
+        <p className='text-black line-clamp-3 sm:text-base text-xs'>
           {content?.length > 120 ? `${content.slice(0, 120)}...` : content}
           <span>
             {' '}

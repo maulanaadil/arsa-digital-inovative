@@ -10,6 +10,7 @@ import { useSuspenseQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { QUERY_PROEJCTPAGE } from '@/graphql/queries';
 import { twMerge as cx } from 'tailwind-merge';
+import useResponsive from '@/hooks/useResponse';
 
 export default function Projectpage() {
   const router = useRouter();
@@ -44,16 +45,21 @@ export default function Projectpage() {
 }
 
 function Projects({ projects }) {
+  const isMobile = useResponsive('sm');
   const router = useRouter();
   return (
-    <div className='container grid grid-cols-4 gap-6'>
+    <div className='container sm:grid sm:grid-cols-4 sm:gap-6 flex gap-3 px-6 sm:px-0 overflow-auto'>
       {projects?.map((project, idx) => (
         <ProjectCard
           key={project.id}
           image={project.image.url}
           title={project.title}
-          layout={idx % 3 === 0 ? 'vertical' : 'horizontal'}
-          className={cx(idx % 3 === 0 ? 'col-span-4' : 'col-span-2')}
+          layout={idx % 3 === 0 && !isMobile ? 'vertical' : 'horizontal'}
+          className={cx(
+            idx % 3 === 0
+              ? 'col-span-4 sm:col-span-4'
+              : 'col-span-4 sm:col-span-2'
+          )}
           description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in convallis mauris. Aenean a faucibus nunc, sed facilisis
   neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas quis est elementum, dictum nunc accumsan, condimentum sem. Nulla metus orci, elementum in odio ut, dignissim rutrum ipsum.'
           onClick={() => router.push('/project')}

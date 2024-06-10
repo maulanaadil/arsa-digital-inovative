@@ -1,3 +1,4 @@
+import useResponsive from '@/hooks/useResponse';
 import React from 'react';
 import { twMerge as cx } from 'tailwind-merge';
 
@@ -8,6 +9,7 @@ export default function Button({
   className,
   ...props
 }) {
+  const isMobile = useResponsive('sm');
   const buttonType = (type) => {
     switch (type) {
       case 'primary':
@@ -22,7 +24,9 @@ export default function Button({
   const buttonSize = (size) => {
     switch (size) {
       case 'large':
-        return 'py-5 px-[3.25rem] flex items-center justify-center gap-5';
+        return ` flex items-center justify-center ${
+          isMobile ? 'px-5 py-2.5 w-fit gap-1' : 'gap-5 py-5 px-[3.25rem]'
+        }`;
       case 'medium':
         return 'py-2.5 px-[4.6rem] flex items-center justify-center gap-1';
       default:
@@ -33,7 +37,8 @@ export default function Button({
   return (
     <button
       className={cx(
-        'font-bold text-xl',
+        'font-bold',
+        isMobile ? 'text-xs' : 'text-xl',
         buttonType(type),
         buttonSize(size),
         className
@@ -47,6 +52,35 @@ export default function Button({
 }
 
 function Icon({ size }) {
+  const isMobile = useResponsive('sm');
+
+  if (isMobile && size === 'large') {
+    return (
+      <svg
+        width='17'
+        height='15'
+        viewBox='0 0 17 15'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M3.04552 8.86363C2.29241 8.86363 1.68188 8.25313 1.68188 7.49999C1.68188 6.74685 2.29241 6.13635 3.04552 6.13635C3.79864 6.13635 4.40916 6.74685 4.40916 7.49999C4.40916 8.25313 3.79864 8.86363 3.04552 8.86363Z'
+          stroke='#F7971E'
+          stroke-width='1.5'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+        />
+        <path
+          d='M7.07959 7.49998H15.3182M15.3182 7.49998L13.2728 5.45453M15.3182 7.49998L13.2728 9.54544'
+          stroke='#F7971E'
+          stroke-width='1.5'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+        />
+      </svg>
+    );
+  }
+
   if (size === 'large') {
     return (
       <svg
