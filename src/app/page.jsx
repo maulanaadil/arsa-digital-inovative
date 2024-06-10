@@ -39,7 +39,7 @@ export default function Homepage() {
   }, []);
 
   return (
-    <div className='overflow-x-hidden'>
+    <>
       {isMobile ? (
         <HeroMobile socialMedias={data?.socialMedias} />
       ) : (
@@ -62,7 +62,7 @@ export default function Homepage() {
         ilustraion={CTAContentIlustration}
         onClick={() => router.push('/contact')}
       />
-    </div>
+    </>
   );
 }
 
