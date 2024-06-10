@@ -30,7 +30,12 @@ export default function Blogs() {
   });
 
   return (
-    <div className='container pb-10 sm:pb-[7.5rem] sm:px-0 px-6 pt-12 sm:pt-[4rem]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container pb-10 sm:pb-[7.5rem] sm:px-0 px-6 pt-12 sm:pt-[4rem]'
+    >
       <Header
         search={search}
         setSearch={(val) => {

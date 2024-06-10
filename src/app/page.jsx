@@ -14,8 +14,9 @@ import Testimonials from '@/sections/testimonial';
 import { useSuspenseQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { twMerge as cx } from 'tailwind-merge';
+import AOS from 'aos';
 
 const activeSosmed = [
   'Linkedin',
@@ -30,6 +31,12 @@ export default function Homepage() {
   const isMobile = useResponsive('sm');
   const router = useRouter();
   const { data, isLoading } = useSuspenseQuery(QUERY_HOMEPAGE);
+
+  useEffect(() => {
+    AOS.init({
+      once: true,
+    });
+  }, []);
 
   return (
     <div className='overflow-x-hidden'>
@@ -66,7 +73,12 @@ function Hero({ socialMedias }) {
   );
 
   return (
-    <div className='container max-auto py-[2.5rem]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container max-auto py-[2.5rem]'
+    >
       <div className='relative min-h-[43rem]'>
         <div className='flex flex-col gap-[6.25rem] justify-between'>
           <div className='flex flex-col gap-6'>
@@ -131,7 +143,12 @@ function HeroMobile({ socialMedias }) {
   );
 
   return (
-    <div className='container max-auto py-[2.5rem] overflow-clip sm:overflow-auto'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container max-auto py-[2.5rem] overflow-clip sm:overflow-auto'
+    >
       <div className='relative min-h-[23.25rem]'>
         <div className='px-6 flex flex-col justify-between grow gap-20'>
           <div className='flex flex-col gap-6'>
@@ -230,7 +247,12 @@ function CompanyExperience({
   );
 
   return (
-    <div className='w-full bg-gradient-to-r from-[#2b3042] to-[#181b24]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      data-aos-duration='1000'
+      className='w-full bg-gradient-to-r from-[#2b3042] to-[#181b24]'
+    >
       <div className='container p-6 sm:py-10 grid grid-cols-4 items-center justify-self-center'>
         {data.map((item) => (
           <div
@@ -252,7 +274,10 @@ function CompanyExperience({
 
 function AboutUs() {
   return (
-    <div className='container py-10 px-6 sm:px-0 sm:py-[10rem] overflow-clip sm:overflow-auto'>
+    <div
+      data-aos='fade-up'
+      className='container py-10 px-6 sm:px-0 sm:py-[10rem] overflow-clip sm:overflow-auto'
+    >
       <div className='relative w-full flex justify-between'>
         <div className='sm:w-full w-3/5 flex flex-col gap-1 sm:gap-8'>
           <div className='flex flex-col gap-3 sm:gap-6'>
@@ -282,7 +307,12 @@ function AboutUs() {
 
 function OurService({ services }) {
   return (
-    <div className='container sm:px-0 px-6 mx-auto pt-[2rem] pb-10 sm:pb-[7rem]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      data-aos-duration='3000'
+      className='container sm:px-0 px-6 mx-auto pt-[2rem] pb-10 sm:pb-[7rem]'
+    >
       <div className='flex flex-col gap-3 sm:gap-6 items-center justify-center'>
         <p className='text-primary-orange text-xs sm:text-xl font-bold uppercase'>
           Our Service
@@ -292,7 +322,7 @@ function OurService({ services }) {
         </p>
       </div>
       <div className='mt-6 sm:mt-[4rem] grid grid-cols-6 gap-3 sm:gap-6'>
-        {services?.map((service) => (
+        {services?.map((service, idx) => (
           <div
             key={service.id}
             className={cx(
@@ -327,7 +357,11 @@ function OurService({ services }) {
 function CTA({ contact }) {
   const isMobile = useResponsive('sm');
   return (
-    <div className='w-full bg-gradient-to-r py-4 pb-10 sm:py-[6.25rem] from-[#2b3042] to-[#181b24]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      className='w-full bg-gradient-to-r py-4 pb-10 sm:py-[6.25rem] from-[#2b3042] to-[#181b24]'
+    >
       <div className='px-6 sm:px-0 container relative h-full sm:h-[30rem] flex flex-col grow justify-between'>
         <div className='flex flex-col gap-1 sm:gap-5'>
           {isMobile && (
@@ -379,7 +413,11 @@ function Blogs({ blogs }) {
   const isMobile = useResponsive('sm');
   const router = useRouter();
   return (
-    <div className='container pt-10 sm:pt-[10rem] px-6 sm:px-0 sm:pb-[4rem] flex flex-col justify-end items-center'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      className='container pt-10 sm:pt-[10rem] px-6 sm:px-0 sm:pb-[4rem] flex flex-col justify-end items-center'
+    >
       <div className='flex flex-col gap-3 sm:gap-6 justify-center items-center'>
         <p className='text-primary-orange font-bold uppercase sm:text-base text-xs'>
           Our blogs
@@ -390,7 +428,7 @@ function Blogs({ blogs }) {
         </p>
       </div>
       <div className='grid grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-[4.75rem] mb-6 sm:mb-[3.75rem]'>
-        {blogs?.map((blog) => (
+        {blogs?.map((blog, idx) => (
           <div
             key={blog.id}
             className='col-span-3 sm:col-span-1 flex flex-col gap-3 sm:gap-8 overflow-hidden'

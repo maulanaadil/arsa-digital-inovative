@@ -1,16 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Blogs from './blogs';
 import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/blog-cta.svg';
 import { useRouter } from 'next/navigation';
 import { useSuspenseQuery } from '@apollo/client';
 import { QUERY_FIRSTBLOGPAGE } from '@/graphql/queries';
+import Aos from 'aos';
 
 export default function Blogpage() {
   const router = useRouter();
   const { data, isLoading } = useSuspenseQuery(QUERY_FIRSTBLOGPAGE);
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
 
   return (
     <>
@@ -29,7 +36,12 @@ export default function Blogpage() {
 function Blog({ blog }) {
   const router = useRouter();
   return (
-    <div className='container px-6 sm:px-0 pt-10 sm:pt-[3rem] pb-0 sm:pb-[4rem] flex gap-5 flex-col-reverse sm:flex-row sm:gap-6 items-center grow'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container px-6 sm:px-0 pt-10 sm:pt-[3rem] pb-0 sm:pb-[4rem] flex gap-5 flex-col-reverse sm:flex-row sm:gap-6 items-center grow'
+    >
       <div className='w-full flex flex-col gap-3 sm:gap-8'>
         <div className='flex gap-3'>
           <div className='sm:w-16 sm:h-16 w-12 h-12 rounded-full overflow-clip'>

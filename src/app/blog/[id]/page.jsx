@@ -3,9 +3,10 @@
 import { QUERY_BLOGDETAILPAGE } from '@/graphql/queries';
 import { useSuspenseQuery } from '@apollo/client';
 import { RichText } from '@graphcms/rich-text-react-renderer';
+import Aos from 'aos';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function BlogDetailpage({ params: { id } }) {
   const { data, isLoading } = useSuspenseQuery(QUERY_BLOGDETAILPAGE, {
@@ -14,8 +15,14 @@ export default function BlogDetailpage({ params: { id } }) {
     },
   });
 
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   return (
-    <>
+    <div data-aos='fade-up' data-aos-easing='ease-in-out' duration='1000'>
       <div className='container pt-[3.75rem] sm:pt-[7.5rem] sm:px-0 px-6 pb-10 sm:pb-[4.5rem]'>
         <div className='flex flex-col gap-6'>
           <p className='text-black font-bold text-[1.75rem] sm:text-[4rem] leading-normal sm:leading-[4.5rem]'>
@@ -98,7 +105,7 @@ export default function BlogDetailpage({ params: { id } }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

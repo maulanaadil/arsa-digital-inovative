@@ -10,10 +10,18 @@ import { useSuspenseQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { twMerge as cx } from 'tailwind-merge';
 import useResponsive from '@/hooks/useResponse';
+import Aos from 'aos';
+import { useEffect } from 'react';
 
 export default function ServicePage() {
   const router = useRouter();
   const { data, isLoading } = useSuspenseQuery(QUERY_SERVICEPAGE);
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
 
   return (
     <>
@@ -43,7 +51,12 @@ export default function ServicePage() {
 function Services({ services }) {
   const router = useRouter();
   return (
-    <div className='container px-6 pb-10 sm:pb-[10rem] grid grid-cols-3 justify-self-center gap-6'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container px-6 pb-10 sm:pb-[10rem] grid grid-cols-3 justify-self-center gap-6'
+    >
       {services?.map((service) => (
         <div
           key={service.id}
@@ -100,7 +113,12 @@ function Works({ works }) {
   };
 
   return (
-    <div className='container pb-10 sm:pb-[10rem] flex flex-col gap-3 sm:gap-6'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container pb-10 sm:pb-[10rem] flex flex-col gap-3 sm:gap-6'
+    >
       <p className='font-bold text-primary-orange uppercase text-center text-xs sm:text-base'>
         Our Professionals
       </p>

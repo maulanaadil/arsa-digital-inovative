@@ -4,7 +4,8 @@ import Button from '@/components/button';
 import { QUERY_CONTACTPAGE } from '@/graphql/queries';
 import useResponsive from '@/hooks/useResponse';
 import { useSuspenseQuery } from '@apollo/client';
-import { useState } from 'react';
+import Aos from 'aos';
+import { useEffect, useState } from 'react';
 
 const activeSosmed = [
   'Dribble',
@@ -15,9 +16,20 @@ const activeSosmed = [
 ];
 
 export default function Contactpage() {
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   const { data, isLoading } = useSuspenseQuery(QUERY_CONTACTPAGE);
   return (
-    <div className='container sm:pb-[10rem] py-10 sm:pt-[4rem] px-6 sm:px-0'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container sm:pb-[10rem] py-10 sm:pt-[4rem] px-6 sm:px-0'
+    >
       <div className='flex grow sm:flex-row flex-col items-center gap-10 sm:gap-[8.25rem] justify-center'>
         <ContactDetail contact={data?.contact} />
         <Form contact={data?.contact} />

@@ -1,8 +1,10 @@
 import { Montserrat } from 'next/font/google';
-import './globals.css';
 import Header from '@/layouts/header';
 import Footer from '@/layouts/footer';
 import { ApolloWrapper } from './ApolloWrapper';
+
+import './globals.css';
+import 'aos/dist/aos.css';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 

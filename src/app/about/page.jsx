@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { twMerge as cx } from 'tailwind-merge';
 import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/about-cta.svg';
@@ -11,11 +11,18 @@ import { QUERY_ABOUTPAGE } from '@/graphql/queries';
 import { useRouter } from 'next/navigation';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import useResponsive from '@/hooks/useResponse';
+import Aos from 'aos';
 
 export default function Aboutpage() {
   const isMobile = useResponsive('sm');
   const router = useRouter();
   const { data, isLoading } = useSuspenseQuery(QUERY_ABOUTPAGE);
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
 
   return (
     <>
@@ -66,7 +73,12 @@ export default function Aboutpage() {
 
 function Abouts({ histories }) {
   return (
-    <div className='container sm:px-0 px-6 py-10 sm:py-[10rem] flex flex-col gap-4 sm:gap-14'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container sm:px-0 px-6 py-10 sm:py-[10rem] flex flex-col gap-4 sm:gap-14'
+    >
       {histories?.map((history, idx) => {
         const lastData = histories.length - 1 === idx;
         return (
@@ -106,7 +118,12 @@ function Abouts({ histories }) {
 
 function Teams({ teams }) {
   return (
-    <div className='container pb-0 sm:pb-[10rem] flex flex-col gap-3 sm:gap-6 px-4 sm:px-0'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container pb-0 sm:pb-[10rem] flex flex-col gap-3 sm:gap-6 px-4 sm:px-0'
+    >
       <p className='font-bold text-primary-orange uppercase text-center text-xs sm:text-base'>
         Our Professionals
       </p>
@@ -150,7 +167,12 @@ function Cultures({ cultures }) {
   const isMobile = useResponsive('sm');
   const [active, setActive] = useState('Integrity');
   return (
-    <div className='container pb-0 sm:pb-[2rem] sm:px-0 px-6 flex flex-col gap-3 sm:gap-6 items-center justify-center'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container pb-0 sm:pb-[2rem] sm:px-0 px-6 flex flex-col gap-3 sm:gap-6 items-center justify-center'
+    >
       <p className='font-bold text-primary-orange uppercase text-center text-xs sm:text-base'>
         Our values and culture
       </p>

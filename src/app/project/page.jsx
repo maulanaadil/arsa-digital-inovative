@@ -2,7 +2,7 @@
 
 import IntroCta from '@/sections/intro-cta';
 import Testimonial from '@/sections/testimonial';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CTAContent from '@/sections/cta';
 import CTAContentIlustration from '@/assets/ilustration/project-cta.svg';
 import ProjectCard from './card';
@@ -11,10 +11,17 @@ import { useRouter } from 'next/navigation';
 import { QUERY_PROEJCTPAGE } from '@/graphql/queries';
 import { twMerge as cx } from 'tailwind-merge';
 import useResponsive from '@/hooks/useResponse';
+import Aos from 'aos';
 
 export default function Projectpage() {
   const router = useRouter();
   const { data, isLoading } = useSuspenseQuery(QUERY_PROEJCTPAGE);
+
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
 
   return (
     <>
@@ -48,7 +55,12 @@ function Projects({ projects }) {
   const isMobile = useResponsive('sm');
   const router = useRouter();
   return (
-    <div className='container sm:grid sm:grid-cols-4 sm:gap-6 flex gap-3 px-6 sm:px-0 overflow-auto'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      duration='1000'
+      className='container sm:grid sm:grid-cols-4 sm:gap-6 flex gap-3 px-6 sm:px-0 overflow-auto'
+    >
       {projects?.map((project, idx) => (
         <ProjectCard
           key={project.id}

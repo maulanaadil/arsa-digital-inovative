@@ -2,19 +2,25 @@
 
 import Button from '@/components/button';
 import Logo from '@/components/logo';
-import useResponsive from '@/hooks/useResponse';
+import Aos from 'aos';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { twMerge as cx } from 'tailwind-merge';
 
 export default function CTA({ ilustraion, cta, onClick, className }) {
-  const isMobile = useResponsive('sm');
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   return (
     <div
       className={cx(
         'container py-10 sm:py-[8rem] flex flex-col items-center gap-4 sm:gap-8 justify-center',
         className
       )}
+      data-aos='fade-up'
     >
       <Logo size='large' className='w-[10rem] sm:w-auto h-[2.5rem] sm:h-auto' />
       <Image

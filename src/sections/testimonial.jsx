@@ -2,16 +2,26 @@
 
 import StarIcon from '@/assets/icons/StarIcon';
 import { QUERY_TESTIMONIALS } from '@/graphql/queries';
-import useResponsive from '@/hooks/useResponse';
 import { useSuspenseQuery } from '@apollo/client';
-import React from 'react';
+import Aos from 'aos';
+import React, { useEffect } from 'react';
 
 export default function Testimonial() {
-  const isMobile = useResponsive('sm');
   const { data, isLoading } = useSuspenseQuery(QUERY_TESTIMONIALS);
 
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   return (
-    <div className='container mx-auto px-4 sm:px-4 py-10 sm:py-[7rem]'>
+    <div
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
+      data-aos-duration='1000'
+      className='container mx-auto px-4 sm:px-4 py-10 sm:py-[7rem]'
+    >
       <div className='flex flex-col items-center justify-center gap-3 sm:gap-6'>
         <p className='text-primary-orange font-bold uppercase sm:text-base text-xs'>
           Testimonials
@@ -21,7 +31,7 @@ export default function Testimonial() {
         </p>
       </div>
       <div className='mt-6 sm:mt-[4.125rem] grid grid-cols-2 gap-2 justify-self-center'>
-        {data?.testimonials.map((testimonial) => (
+        {data?.testimonials.map((testimonial, idx) => (
           <div
             key={testimonial.id}
             className='border border-lightGrey bg-pureWhite p-4 sm:p-10 sm:col-span-1 col-span-2'

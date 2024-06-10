@@ -67,6 +67,7 @@ function OptionHeaderOptions({ show, menus, onClose, onClickMenu }) {
           <Link
             key={menu.title}
             href={menu.link}
+            onClick={() => onClose()}
             className='py-2.5 text-center w-full text-2xl z-[99999] text-darkGrey font-medium'
           >
             {menu.title}

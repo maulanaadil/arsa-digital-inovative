@@ -1,6 +1,7 @@
 import Button from '@/components/button';
 import useResponsive from '@/hooks/useResponse';
-import React from 'react';
+import Aos from 'aos';
+import React, { useEffect } from 'react';
 import { twMerge as cx } from 'tailwind-merge';
 
 export default function IntroCta({
@@ -12,12 +13,20 @@ export default function IntroCta({
 }) {
   const isMobile = useResponsive('sm');
 
+  useEffect(() => {
+    Aos.init({
+      once: true,
+    });
+  }, []);
+
   return (
     <div
       className={cx(
         'container flex flex-col gap-6 items-center justify-center px-6 sm:px-0',
         isMobile ? 'py-10' : 'py-[7.5rem]'
       )}
+      data-aos='fade-up'
+      data-aos-easing='ease-in-out'
     >
       <p className='font-bold text-primary-orange text-xs sm:text-base uppercase'>
         {section}
