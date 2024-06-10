@@ -50,7 +50,7 @@ function Services({ services }) {
           className={cx(
             'w-full h-[15rem] sm:h-[30rem] relative sm:col-span-1 col-span-3',
             service.name === 'UI/UX Design' &&
-              'col-span-3 w-full sm:w-[24rem] justify-self-center'
+              'col-span-3 sm:col-span-3 w-full sm:w-[23rem] justify-self-center'
           )}
         >
           <div className='absolute bg-black/60 inset-0 z-20'></div>
